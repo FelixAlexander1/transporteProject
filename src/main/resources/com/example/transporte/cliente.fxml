@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="375.0" prefWidth="431.0" style="-fx-background-color: #b75413;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.transporte.controller.ClienteController">
+   <children>
+      <Label fx:id="holatt" layoutX="22.0" layoutY="97.0" text="Cliente">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <style>
+            -fx-font-weight: bold;
+            -fx-font-size: 12px;
+         </style>
+      </Label>
+      <ListView fx:id="listview" layoutX="134.0" layoutY="77.0" onMouseClicked="#Seleccionar" prefHeight="223.0" prefWidth="258.0" style="-fx-background-color: #7a2100; -fx-text-fill: #333; -fx-font-size: 14px;">
+         <style>
+            /* Estilos adicionales del ListView */
+            -fx-selection-bar: #007bff;
+            -fx-selection-bar-text: white;
+         </style>
+      </ListView>
+      <Circle fx:id="circle" fill="DODGERBLUE" layoutX="50.0" layoutY="50.0" radius="36.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="134.0" layoutY="50.0" text="Pedidos">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
