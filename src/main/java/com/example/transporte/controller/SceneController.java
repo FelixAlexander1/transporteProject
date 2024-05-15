@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SceneController implements Initializable {
@@ -33,15 +34,15 @@ public class SceneController implements Initializable {
 
 
             if (tipoUsuario == TipoUsuario.Cliente) {
-                root = FXMLLoader.load(HelloApplication.class.getResource("cliente.fxml"));
+                root = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource("cliente.fxml")));
                 primaryStage.setTitle("LogisticTR!");
                 primaryStage.close();
             } else if (tipoUsuario == TipoUsuario.Conductor) {
-                root = FXMLLoader.load(HelloApplication.class.getResource("conductor.fxml"));
+                root = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource("conductor.fxml")));
                 primaryStage.setTitle("LogisticTR!");
                 primaryStage.close();
             } else if (tipoUsuario == TipoUsuario.Administrador) {
-                root = FXMLLoader.load(HelloApplication.class.getResource("administrador.fxml"));
+                root = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource("administrador.fxml")));
                 primaryStage.setTitle("LogisticTR!");
                 primaryStage.close();
             } else {

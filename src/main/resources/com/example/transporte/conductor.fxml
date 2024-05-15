@@ -10,7 +10,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="456.0" style="-fx-background-color: #b75413;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.transporte.controller.ConductorController">
    <children>
       <ListView fx:id="listview1" layoutX="127.0" layoutY="222.0" onMouseClicked="#Seleccionar" prefHeight="106.0" prefWidth="296.0" style="-fx-background-color: #7a2100; -fx-text-fill: #333; -fx-font-size: 14px;" />
-      <Label fx:id="nombreLbl" layoutX="19.0" layoutY="123.0" text="Label">
+      <Label fx:id="nombreLbl" layoutX="19.0" layoutY="118.0" text="Label">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Label>
@@ -21,5 +21,15 @@
       <Button layoutX="351.0" layoutY="338.0" mnemonicParsing="false" onAction="#Cancelar" style="-fx-background-color: #7a2100; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px; -fx-padding: 3px 3px; -fx-border-color: #7a2100; -fx-border-radius: 5px;" text="Cancelado" />
       <ListView fx:id="listview2" layoutX="127.0" layoutY="58.0" onMouseClicked="#Seleccionar2" prefHeight="106.0" prefWidth="296.0" style="-fx-background-color: #7a2100; -fx-text-fill: #333; -fx-font-size: 14px;" />
       <Button layoutX="332.0" layoutY="172.0" mnemonicParsing="false" onAction="#Finalizar" style="-fx-background-color: #7a2100; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px; -fx-padding: 3px 3px; -fx-border-color: #7a2100; -fx-border-radius: 5px;" text="Finalizar Ruta" />
+      <Label layoutX="127.0" layoutY="41.0" text="Ruta">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="127.0" layoutY="205.0" text="Pedido">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

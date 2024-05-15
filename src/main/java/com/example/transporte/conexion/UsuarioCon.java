@@ -16,6 +16,52 @@ public class UsuarioCon {
         conexion= Conexion.initConnection();
     }
 
+    public void registrarUsuario(String nombre, String contraseña, String email, String direccion, String telefono) {
+        try (Connection conn = Conexion.initConnection()) {
+            // Verificar si el nombre de usuario o el email ya existen
+            String consulta = "SELECT COUNT(*) FROM Usuarios WHERE Nombre = ? OR Email = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(consulta)) {
+                stmt.setString(1, nombre);
+                stmt.setString(2, email);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    rs.next();
+                    if (rs.getInt(1) > 0) {
+                        System.out.println("El nombre de usuario o el email ya están en uso");
+                        return;
+                    }
+                }
+            }
+
+            // Insertar nuevo usuario en la tabla Usuarios
+            String insertarUsuario = "INSERT INTO Usuarios (Nombre, Contraseña, Email, Tipo) VALUES (?, ?, ?, 'Cliente')";
+            try (PreparedStatement stmt = conn.prepareStatement(insertarUsuario, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setString(1, nombre);
+                stmt.setString(2, contraseña);
+                stmt.setString(3, email);
+                stmt.executeUpdate();
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                int usuarioID = -1;
+                if (generatedKeys.next()) {
+                    usuarioID = generatedKeys.getInt(1);
+                }
+
+                // Insertar los datos del cliente en la tabla Clientes
+                String insertarCliente = "INSERT INTO Clientes (UsuarioID, Direccion, Telefono) VALUES (?, ?, ?)";
+                try (PreparedStatement stmtCliente = conn.prepareStatement(insertarCliente)) {
+                    stmtCliente.setInt(1, usuarioID);
+                    stmtCliente.setString(2, direccion);
+                    stmtCliente.setString(3, telefono);
+                    stmtCliente.executeUpdate();
+                }
+            }
+
+            System.out.println("Registro exitoso");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error al registrar usuario");
+        }
+    }
+
     public TipoUsuario obtenerTipoUsuario(String email, String password) {
         String sql = "SELECT Tipo FROM Usuarios WHERE Email = ? AND Contraseña = ?";
         try (PreparedStatement statement = conexion.prepareStatement(sql)) {
@@ -87,7 +133,7 @@ public class UsuarioCon {
 
         String sql = "SELECT c.ID, u.Nombre AS NombreCliente, u.Email, c.Direccion, c.Telefono, u.Tipo " +
                 "FROM Clientes c " +
-                "INNER JOIN Usuarios u ON c.UsuarioID = u.ID";
+                "INNER JOIN Usuarios u ON c.UsuarioID = u.ID WHERE u.Tipo = 'Cliente'";
         ArrayList<Cliente> clientes = new ArrayList<>();
 
         try (PreparedStatement statement = conexion.prepareStatement(sql)) {
@@ -239,15 +285,15 @@ public class UsuarioCon {
             throw new RuntimeException("Error al actualizar la fecha de fin de la ruta.", e);
         }
     }
-    public void eliminarRuta(int rutaID) {
-        String sql = "DELETE FROM Rutas WHERE ID = ?";
+    public void eliminarRuta(String nombreConductor) {
+        String sql = "DELETE FROM Rutas WHERE ConductorID = (SELECT ID FROM Conductores WHERE UsuarioID = (SELECT ID FROM Usuarios WHERE Nombre = ?))";
 
         try (PreparedStatement statement = conexion.prepareStatement(sql)) {
-            statement.setInt(1, rutaID);
+            statement.setString(1, nombreConductor);
 
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
-                System.out.println("No se encontró ninguna ruta con el ID especificado.");
+                System.out.println("No se encontró ninguna ruta asociada al conductor especificado.");
             } else {
                 System.out.println("Ruta eliminada exitosamente.");
             }
@@ -280,6 +326,51 @@ public class UsuarioCon {
             return nombresProductos;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void eliminarUsuario(String nombreUsuario) {
+        try (Connection conn = Conexion.initConnection()) {
+            // Obtener el ID del usuario a eliminar
+            String obtenerIDUsuario = "SELECT ID FROM Usuarios WHERE Nombre = ?";
+            int usuarioID = -1;
+            try (PreparedStatement stmt = conn.prepareStatement(obtenerIDUsuario)) {
+                stmt.setString(1, nombreUsuario);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        usuarioID = rs.getInt("ID");
+                    } else {
+                        System.out.println("El usuario especificado no existe.");
+                        return;
+                    }
+                }
+            }
+
+            // Eliminar el registro del cliente asociado al usuario
+            String eliminarCliente = "DELETE FROM Clientes WHERE UsuarioID = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(eliminarCliente)) {
+                stmt.setInt(1, usuarioID);
+                stmt.executeUpdate();
+            }
+
+            // Eliminar el registro del conductor asociado al usuario
+            String eliminarConductor = "DELETE FROM Conductores WHERE UsuarioID = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(eliminarConductor)) {
+                stmt.setInt(1, usuarioID);
+                stmt.executeUpdate();
+            }
+
+            // Eliminar el registro del usuario
+            String eliminarUsuario = "DELETE FROM Usuarios WHERE Nombre = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(eliminarUsuario)) {
+                stmt.setString(1, nombreUsuario);
+                stmt.executeUpdate();
+            }
+
+            System.out.println("Usuario eliminado exitosamente.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error al eliminar el usuario.");
         }
     }
 }
