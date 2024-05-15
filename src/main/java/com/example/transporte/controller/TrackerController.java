@@ -1,5 +1,12 @@
 package com.example.transporte.controller;
 
+/**
+ * @author Alexander Montesdeoca Garcia
+ * @since 11-03-24
+ * @version 1.0
+ * Aplicacion que emula una empresa de logistica a la cual le llegan unos pedidos a entregar y con conductores lo hacen llegar a los clientes.
+ */
+
 import com.example.transporte.HelloApplication;
 import com.example.transporte.model.Pedido;
 import javafx.fxml.FXML;

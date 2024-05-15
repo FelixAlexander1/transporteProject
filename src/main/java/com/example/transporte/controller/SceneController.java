@@ -1,5 +1,12 @@
 package com.example.transporte.controller;
 
+/**
+ * @author Alexander Montesdeoca Garcia
+ * @since 11-03-24
+ * @version 1.0
+ * Aplicacion que emula una empresa de logistica a la cual le llegan unos pedidos a entregar y con conductores lo hacen llegar a los clientes.
+ */
+
 import com.example.transporte.HelloApplication;
 import com.example.transporte.model.TipoUsuario;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +39,6 @@ public class SceneController implements Initializable {
             Parent root = null;
             Scene scene;
 
-
             if (tipoUsuario == TipoUsuario.Cliente) {
                 root = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource("cliente.fxml")));
                 primaryStage.setTitle("LogisticTR!");
@@ -57,7 +63,6 @@ public class SceneController implements Initializable {
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
-            // Manejo de excepciones, por ejemplo, mostrar un mensaje de error
         }
     }
 

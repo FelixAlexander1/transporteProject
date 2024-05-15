@@ -1,5 +1,12 @@
 package com.example.transporte.controller;
 
+/**
+ * @author Alexander Montesdeoca Garcia
+ * @since 11-03-24
+ * @version 1.0
+ * Aplicacion que emula una empresa de logistica a la cual le llegan unos pedidos a entregar y con conductores lo hacen llegar a los clientes.
+ */
+
 import com.example.transporte.HelloApplication;
 import com.example.transporte.conexion.UsuarioCon;
 import javafx.event.ActionEvent;
@@ -11,7 +18,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,6 +49,7 @@ public class RegistroController implements Initializable {
         primaryStage=new Stage();
     }
 
+    //Registra a los ususarios en la base de datos
     public void Registrar(ActionEvent actionEvent) throws IOException {
         String nombre = nombreTxt.getText();
         String contraseña = contraseniaTxt.getText();
@@ -80,9 +87,8 @@ public class RegistroController implements Initializable {
 
 
     }
-
+    //Te devuelve al login
     public void Cancelar(ActionEvent actionEvent) throws IOException {
-
         System.out.println("Ir a registrarse");
         primaryStage = (Stage) cancelarBtn.getScene().getWindow();
         primaryStage.close();
@@ -109,6 +115,6 @@ public class RegistroController implements Initializable {
 
     // Método para validar el formato de un número de teléfono
     private boolean isValidPhoneNumber(String phoneNumber) {
-        return phoneNumber.matches("^\\d{10}$");
+        return phoneNumber.matches("^\\d{9}$");
     }
 }

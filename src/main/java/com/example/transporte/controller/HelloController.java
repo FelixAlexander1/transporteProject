@@ -1,5 +1,12 @@
 package com.example.transporte.controller;
 
+/**
+ * @author Alexander Montesdeoca Garcia
+ * @since 11-03-24
+ * @version 1.0
+ * Aplicacion que emula una empresa de logistica a la cual le llegan unos pedidos a entregar y con conductores lo hacen llegar a los clientes.
+ */
+
 import com.example.transporte.HelloApplication;
 import com.example.transporte.conexion.Conexion;
 import com.example.transporte.conexion.UsuarioCon;
@@ -41,6 +48,7 @@ public class HelloController implements Initializable {
         user = new UsuarioCon();
     }
 
+    //Si el usuario es correcto logea al usuario
     public void Ingresar(ActionEvent actionEvent) {
         // Obtener el email y la contraseña ingresados por el usuario
         String email = emailTxt.getText();
@@ -69,6 +77,7 @@ public class HelloController implements Initializable {
         }
     }
 
+    //Te lleva a la ventana para registrar
     public void Registrar(ActionEvent actionEvent) throws IOException {
         System.out.println("Ir a registrarse");
         primaryStage = (Stage) registrarLink.getScene().getWindow();

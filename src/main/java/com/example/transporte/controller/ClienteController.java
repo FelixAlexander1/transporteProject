@@ -1,5 +1,12 @@
 package com.example.transporte.controller;
 
+/**
+ * @author Alexander Montesdeoca Garcia
+ * @since 11-03-24
+ * @version 1.0
+ * Aplicacion que emula una empresa de logistica a la cual le llegan unos pedidos a entregar y con conductores lo hacen llegar a los clientes.
+ */
+
 import com.example.transporte.HelloApplication;
 import com.example.transporte.conexion.UsuarioCon;
 import com.example.transporte.model.Cliente;
@@ -7,6 +14,7 @@ import com.example.transporte.model.Pedido;
 import com.example.transporte.model.Usuario;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
@@ -24,6 +33,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -37,6 +47,8 @@ public class ClienteController implements Initializable {
     public ListView listview;
     @FXML
     public Circle circle;
+    @FXML
+    public TextField buscarTxt;
     private UsuarioCon usuarioCon;
 
     @Override
@@ -56,6 +68,27 @@ public class ClienteController implements Initializable {
         ObservableList<Pedido> items = FXCollections.observableArrayList(pedidos);
 
         // Establecer los pedidos en el ListView
+        listViewClientes.setItems(items);
+
+        // Configurar el CellFactory para mostrar solo el nombre del pedido
+        listViewClientes.setCellFactory(param -> new ListCell<Pedido>() {
+            @Override
+            protected void updateItem(Pedido pedido, boolean empty) {
+                super.updateItem(pedido, empty);
+                if (empty || pedido == null || pedido.getNombre() == null) {
+                    setText(null);
+                } else {
+                    setText(pedido.getNombre());
+                }
+            }
+        });
+    }
+
+    public void llenarListViewPedidoId(ListView<Pedido> listViewClientes) {
+        List<Pedido> nombrePedido = usuarioCon.obtenerPedidosPorId(Integer.parseInt(buscarTxt.getText()));
+
+        ObservableList<Pedido> items = FXCollections.observableArrayList(nombrePedido);
+
         listViewClientes.setItems(items);
 
         // Configurar el CellFactory para mostrar solo el nombre del pedido
@@ -102,5 +135,11 @@ public class ClienteController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void Buscar(ActionEvent actionEvent) {
+      llenarListViewPedidoId(listview);
+
+
     }
 }

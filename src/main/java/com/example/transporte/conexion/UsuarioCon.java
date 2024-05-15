@@ -373,4 +373,34 @@ public class UsuarioCon {
             System.out.println("Error al eliminar el usuario.");
         }
     }
+
+    public List<Pedido> obtenerPedidosPorId(int pedidoID) {
+        String sql = "SELECT ID, Nombre, Origen, Destino, FechaPedido, Estado " +
+                "FROM Pedidos " +
+                "WHERE ID = ?";
+
+        List<Pedido> pedidos = new ArrayList<>();
+
+        try (PreparedStatement statement = conexion.prepareStatement(sql)) {
+            statement.setInt(1, pedidoID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("ID");
+                    String nombre = resultSet.getString("Nombre");
+                    String origen = resultSet.getString("Origen");
+                    String destino = resultSet.getString("Destino");
+                    LocalDateTime fechaPedido = resultSet.getTimestamp("FechaPedido").toLocalDateTime();
+                    String estadoStr = resultSet.getString("Estado");
+                    EstadoPedido estado = EstadoPedido.valueOf(estadoStr);
+
+                    Pedido pedido = new Pedido(nombre, id, null, origen, destino, fechaPedido, estado);
+                    pedidos.add(pedido);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pedidos;
+    }
 }

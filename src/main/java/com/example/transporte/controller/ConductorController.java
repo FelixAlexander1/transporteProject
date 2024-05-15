@@ -1,5 +1,12 @@
 package com.example.transporte.controller;
 
+/**
+ * @author Alexander Montesdeoca Garcia
+ * @since 11-03-24
+ * @version 1.0
+ * Aplicacion que emula una empresa de logistica a la cual le llegan unos pedidos a entregar y con conductores lo hacen llegar a los clientes.
+ */
+
 import com.example.transporte.conexion.UsuarioCon;
 import com.example.transporte.model.EstadoPedido;
 import com.example.transporte.model.Pedido;
@@ -52,6 +59,7 @@ public class ConductorController implements Initializable {
         circle.setFill(new ImagePattern(image));
     }
 
+    //Llena la lista con las rutas
     public void llenarListViewRuta(ListView<Ruta> listViewRuta) {
         List<Ruta> rutas = usuarioCon.obtenerRutasPorConductor(identifier);
         // Crear un ObservableList a partir de la lista de pedidos
@@ -71,6 +79,8 @@ public class ConductorController implements Initializable {
             }
         });
     }
+
+    //Llena la lista con los pedidos
     public void llenarListViewPedidos(ListView<Pedido> listViewClientes) {
         List<Pedido> pedidos = usuarioCon.obtenerNombresProductosConConductor(identifier);
         // Crear un ObservableList a partir de la lista de pedidos
@@ -90,6 +100,7 @@ public class ConductorController implements Initializable {
             }
         });
     }
+    //Selecciona el pedido
     public void seleccionarPedido(Pedido pedido) {
         listview1.getSelectionModel().select(pedido);
     }
@@ -101,27 +112,32 @@ public class ConductorController implements Initializable {
 
         }
     }
+    //Pone el pedido en pendiente
     public void Pendiente(ActionEvent actionEvent) {
         usuarioCon.actualizarEstadoPedido(pedidoSeleccionado.getId(),EstadoPedido.Pendiente);
         listview1.getItems().clear();
         llenarListViewPedidos(listview1);
 
     }
+    //Pone si el pedido esta en curso
     public void Cursar(ActionEvent actionEvent) {
         usuarioCon.actualizarEstadoPedido(pedidoSeleccionado.getId(),EstadoPedido.EnCurso);
         listview1.getItems().clear();
         llenarListViewPedidos(listview1);
     }
+    //Se entrega el pedido
     public void Entregar(ActionEvent actionEvent) {
         usuarioCon.actualizarEstadoPedido(pedidoSeleccionado.getId(),EstadoPedido.Entregado);
         listview1.getItems().clear();
         llenarListViewPedidos(listview1);
     }
+    //Se cancela el pedido
     public void Cancelar(ActionEvent actionEvent) {
         usuarioCon.actualizarEstadoPedido(pedidoSeleccionado.getId(),EstadoPedido.Cancelado);
         listview1.getItems().clear(); // Limpiar el ListView
         llenarListViewPedidos(listview1);
     }
+    //Selecciona la ruta de la lista
     public void seleccionarRuta(Ruta ruta) {
         listview2.getSelectionModel().select(ruta);
     }
@@ -132,6 +148,7 @@ public class ConductorController implements Initializable {
             seleccionarRuta(rutaSeleccionada);
         }
     }
+    //Finaliza la ruta
     public void Finalizar(ActionEvent actionEvent) {
         usuarioCon.actualizarFechaFinRuta(rutaSeleccionada.getId(), LocalDateTime.now());
         listview2.getItems().clear();
