@@ -124,7 +124,7 @@ public class EditConductorController implements Initializable {
 
             }
         } catch (NumberFormatException e) {
-            System.out.println("El campo 'Vehículo' debe ser un número entero.");
+            mostrarAlerta("El campo 'Vehículo' debe ser un número entero.");
         }
     }
 
@@ -145,6 +145,7 @@ public class EditConductorController implements Initializable {
         }
         adminStage.setTitle("Chat!");
         adminStage.setScene(scene);
+        adminStage.setResizable(false);
         adminStage.show();
         adminStage = (Stage) buton.getScene().getWindow();
         adminStage.close();
@@ -163,6 +164,7 @@ public class EditConductorController implements Initializable {
         String imagen= "src/main/resources/img/logo.png";
         Image image= new Image(new File(imagen).toURI().toString());
         adminStage.getIcons().add(image);
+        adminStage.setResizable(false);
         adminStage.show();
         adminStage = (Stage) buton.getScene().getWindow();
         adminStage.close();

@@ -72,6 +72,7 @@ public class EditarClienteController implements Initializable {
         String imagen= "src/main/resources/img/logo.png";
         Image image= new Image(new File(imagen).toURI().toString());
         clienteStage.getIcons().add(image);
+        clienteStage.setResizable(false);
         clienteStage = (Stage) AceptarBtn.getScene().getWindow();
         clienteStage.close();
     }

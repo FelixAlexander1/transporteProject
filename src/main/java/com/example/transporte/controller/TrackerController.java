@@ -61,6 +61,7 @@ public class TrackerController implements Initializable {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Chat!");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
         stage = (Stage) backBtn.getScene().getWindow();
         stage.close();

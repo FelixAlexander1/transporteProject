@@ -137,6 +137,7 @@ public class ClienteController implements Initializable {
             controller.initData(pedido); // Pasar el pedido seleccionado al controlador de la ventana
             Scene scene = new Scene(root);
             stage.setTitle("Producto de " + identifier);
+            stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
 
@@ -159,6 +160,7 @@ public class ClienteController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        clienteStage.setResizable(false);
         clienteStage.setTitle("Logistic24");
         clienteStage.setScene(scene);
         clienteStage.show();
@@ -174,6 +176,7 @@ public class ClienteController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        clienteStage.setResizable(false);
         clienteStage.setTitle("Logistic24");
         clienteStage.setScene(scene);
         clienteStage.show();

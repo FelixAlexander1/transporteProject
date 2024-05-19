@@ -3,6 +3,7 @@ module com.example.transporte {
     requires javafx.fxml;
     requires java.sql;
     requires java.desktop;
+    requires javafx.web;
 
 
     opens com.example.transporte to javafx.fxml;

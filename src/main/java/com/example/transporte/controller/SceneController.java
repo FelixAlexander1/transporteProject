@@ -72,6 +72,7 @@ public class SceneController implements Initializable {
 
             scene = new Scene(root);
             primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();

@@ -16,6 +16,7 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Logistic24");
         stage.setScene(scene);
+        stage.setResizable(false); // Esto evita que la ventana sea redimensionable
         String imagen= "src/main/resources/img/logo.png";
         Image image= new Image(new File(imagen).toURI().toString());
         stage.getIcons().add(image);

@@ -725,6 +725,27 @@ public class UsuarioCon {
         }
     }
 
+    public String obtenerNombreConductorPorRuta(int rutaID) {
+        String sql = "SELECT u.Nombre " +
+                "FROM Usuarios u " +
+                "INNER JOIN Conductores c ON u.ID = c.UsuarioID " +
+                "INNER JOIN Rutas r ON c.ID = r.ConductorID " +
+                "WHERE r.RutaID = ?";
+
+        try (PreparedStatement statement = conexion.prepareStatement(sql)) {
+            statement.setInt(1, rutaID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("Nombre");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        // Si no se encuentra ningún conductor asociado a la ruta, devolver null
+        return null;
+    }
+
     // Método para ingresar un nuevo pedido con ruta
     // Inserta un nuevo pedido en la tabla Pedidos con los datos proporcionados
     public boolean ingresarPedidoConRuta(int pedidoID, String origen, String destino, String nombre) {

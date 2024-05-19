@@ -62,6 +62,7 @@ public class RegistroController implements Initializable {
         Scene scene;
         scene = new Scene(FXMLLoader.load(HelloApplication.class.getResource("hello-view.fxml")));
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
@@ -120,6 +121,7 @@ public class RegistroController implements Initializable {
                 throw new RuntimeException(e);
             }
             primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
             primaryStage.show();}
     }
 }

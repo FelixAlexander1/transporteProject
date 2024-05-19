@@ -18,10 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -59,8 +56,7 @@ public class AdministradorController implements Initializable {
         usuarioCon=new UsuarioCon();
         adminStage=new Stage();
         labelNombre.setText(identifier);
-        //llenarListViewPedidos(listview1);
-        //llenarListViewRuta(listview2);
+        llenarListViewRuta(listview1);
         List<Cliente> todosClientes = usuarioCon.obtenerClientes();
         llenarListViewClientes(listview2,todosClientes);
         String imagen= "src/main/resources/img/3135768.png";
@@ -111,12 +107,29 @@ public class AdministradorController implements Initializable {
     }
     //Elimina la ruta seleccionada
     public void EliminarRuta(ActionEvent actionEvent) {
-        Ruta rutaSeleccionado = (Ruta) listview1.getSelectionModel().getSelectedItem();
-        if (rutaSeleccionado != null) {
-            usuarioCon.eliminarRuta(textfield1.getText());
-            // Volver a llenar el ListView después de eliminar el cliente
-            llenarListViewRuta(listview1);
+        Ruta rutaSeleccionada = (Ruta) listview1.getSelectionModel().getSelectedItem();
+        if (rutaSeleccionada != null) {
+            // Obtener el nombre del conductor asociado a la ruta seleccionada
+            String nombreConductor = usuarioCon.obtenerNombreConductorPorRuta(rutaSeleccionada.getId());
+
+            // Obtener todas las rutas asociadas al conductor
+            List<Ruta> rutasConductor = usuarioCon.obtenerRutasPorConductor(nombreConductor);
+
+            // Eliminar cada ruta asociada al conductor de la base de datos
+            for (Ruta ruta : rutasConductor) {
+                usuarioCon.eliminarRuta(nombreConductor);
+            }
+
+            // Eliminar la ruta seleccionada del ListView
+            listview1.getItems().remove(rutaSeleccionada);
+
+            // Mostrar un mensaje de éxito
+            mostrarAlerta("Rutas eliminadas exitosamente.");
+        } else {
+            // Si no se ha seleccionado ninguna ruta, mostrar un mensaje de advertencia
+            mostrarAlerta("Por favor, seleccione una ruta para eliminar.");
         }
+
     }
 
     public void seleccionarRuta(Ruta ruta) {
@@ -184,6 +197,7 @@ public class AdministradorController implements Initializable {
 
         adminStage.setTitle("Logistic24");
         adminStage.setScene(scene);
+        adminStage.setResizable(false);
         String imagen= "src/main/resources/img/logo.png";
         Image image= new Image(new File(imagen).toURI().toString());
         adminStage.getIcons().add(image);
@@ -191,5 +205,13 @@ public class AdministradorController implements Initializable {
 
 
 
+    }
+
+    private void mostrarAlerta(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 }
