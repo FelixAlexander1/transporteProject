@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -27,10 +28,6 @@ public class RegistroController implements Initializable {
     @FXML
     public TextField nombreTxt;
     @FXML
-    public TextField contraseniaTxt;
-    @FXML
-    public TextField contraseniaTxt2;
-    @FXML
     public Button registraseBtn;
     @FXML
     public Button cancelarBtn;
@@ -40,6 +37,10 @@ public class RegistroController implements Initializable {
     public TextField telefonoTxt;
     @FXML
     public TextField direccionTxt;
+    @FXML
+    public PasswordField contraseñaTxt;
+    @FXML
+    public PasswordField RepContraseñaTxt;
     private UsuarioCon usuarioCon;
     private Stage primaryStage;
 
@@ -51,41 +52,7 @@ public class RegistroController implements Initializable {
 
     //Registra a los ususarios en la base de datos
     public void Registrar(ActionEvent actionEvent) throws IOException {
-        String nombre = nombreTxt.getText();
-        String contraseña = contraseniaTxt.getText();
-        String contraseñaConfirmacion = contraseniaTxt2.getText();
-        String email = emailTxt.getText();
-        String telefono = telefonoTxt.getText();
-        String direccion = direccionTxt.getText();
-
-        if (!contraseña.equals(contraseñaConfirmacion)) {
-            mostrarAlerta("Las contraseñas no coinciden");
-        }
-        // Validar que el nombre no esté vacío
-        else if (nombre.isEmpty()) {
-            mostrarAlerta("Por favor, ingresa un nombre");
-        }
-
-        // Validar que el email sea un formato válido
-        else if (!isValidEmail(email)) {
-            mostrarAlerta("Por favor, ingresa un email válido");
-        }
-
-        // Validar que el teléfono sea un formato válido
-        else if (!isValidPhoneNumber(telefono)) {
-            mostrarAlerta("Por favor, ingresa un número de teléfono válido");
-        }
-        else {usuarioCon.registrarUsuario(nombre,contraseña,email,direccion,telefono);
-
-            primaryStage = (Stage) cancelarBtn.getScene().getWindow();
-            primaryStage.close();
-            Scene scene;
-            scene = new Scene(FXMLLoader.load(HelloApplication.class.getResource("hello-view.fxml")));
-            primaryStage.setScene(scene);
-            primaryStage.show();}
-
-
-
+        registrarUsuarios();
     }
     //Te devuelve al login
     public void Cancelar(ActionEvent actionEvent) throws IOException {
@@ -116,5 +83,43 @@ public class RegistroController implements Initializable {
     // Método para validar el formato de un número de teléfono
     private boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber.matches("^\\d{9}$");
+    }
+
+    public void registrarUsuarios(){
+        String nombre = nombreTxt.getText();
+        String contraseña = contraseñaTxt.getText();
+        String contraseñaConfirmacion = RepContraseñaTxt.getText();
+        String email = emailTxt.getText();
+        String telefono = telefonoTxt.getText();
+        String direccion = direccionTxt.getText();
+
+        if (!contraseña.equals(contraseñaConfirmacion)) {
+            mostrarAlerta("Las contraseñas no coinciden");
+        }
+        // Validar que el nombre no esté vacío
+        else if (nombre.isEmpty()) {
+            mostrarAlerta("Por favor, ingresa un nombre");
+        }
+
+        // Validar que el email sea un formato válido
+        else if (!isValidEmail(email)) {
+            mostrarAlerta("Por favor, ingresa un email válido");
+        }
+
+        // Validar que el teléfono sea un formato válido
+        else if (!isValidPhoneNumber(telefono)) {
+            mostrarAlerta("Por favor, ingresa un número de teléfono válido");
+        }
+        else {usuarioCon.registrarUsuario(nombre,contraseña,email,direccion,telefono);
+            primaryStage = (Stage) cancelarBtn.getScene().getWindow();
+            primaryStage.close();
+            Scene scene;
+            try {
+                scene = new Scene(FXMLLoader.load(HelloApplication.class.getResource("hello-view.fxml")));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            primaryStage.setScene(scene);
+            primaryStage.show();}
     }
 }

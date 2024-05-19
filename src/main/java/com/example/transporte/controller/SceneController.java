@@ -15,7 +15,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -41,16 +44,25 @@ public class SceneController implements Initializable {
 
             if (tipoUsuario == TipoUsuario.Cliente) {
                 root = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource("cliente.fxml")));
-                primaryStage.setTitle("LogisticTR!");
+                primaryStage.setTitle("Logistic24");
                 primaryStage.close();
+                String imagen= "src/main/resources/img/logo.png";
+                Image image= new Image(new File(imagen).toURI().toString());
+                primaryStage.getIcons().add(image);
             } else if (tipoUsuario == TipoUsuario.Conductor) {
                 root = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource("conductor.fxml")));
-                primaryStage.setTitle("LogisticTR!");
+                primaryStage.setTitle("Logistic24");
                 primaryStage.close();
+                String imagen= "src/main/resources/img/logo.png";
+                Image image= new Image(new File(imagen).toURI().toString());
+                primaryStage.getIcons().add(image);
             } else if (tipoUsuario == TipoUsuario.Administrador) {
                 root = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource("administrador.fxml")));
-                primaryStage.setTitle("LogisticTR!");
+                primaryStage.setTitle("Logistic24");
                 primaryStage.close();
+                String imagen= "src/main/resources/img/logo.png";
+                Image image= new Image(new File(imagen).toURI().toString());
+                primaryStage.getIcons().add(image);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Correo o contraseña incorrectos.");

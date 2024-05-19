@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="265.0" prefWidth="338.0" style="-fx-background-color: #b75413;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.transporte.controller.EditarClienteController">
+   <children>
+      <Label layoutX="39.0" layoutY="52.0" text="Dirección:">
+         <font>
+            <Font name="Calibri Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="41.0" layoutY="92.0" text="Telefono:">
+         <font>
+            <Font name="Calibri Bold" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="direccionTxt" layoutX="169.0" layoutY="48.0" style="-fx-background-color: #ed9252; -fx-border-color: #7a2100; -fx-border-radius: 3px;" />
+      <TextField fx:id="TelefonoTxt" layoutX="169.0" layoutY="88.0" style="-fx-background-color: #ed9252; -fx-border-color: #7a2100; -fx-border-radius: 3px;" />
+      <Text layoutX="128.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EditarPerfil">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Text>
+      <Button fx:id="AceptarBtn" layoutX="140.0" layoutY="219.0" mnemonicParsing="false" onAction="#Aceptar" style="-fx-background-color: #7a2100; -fx-border-color: #7a2100; -fx-text-fill: white; -fx-border-radius: 3px;" text="Aceptar" />
+      <Label layoutX="39.0" layoutY="137.0" text="Contraseña actual:">
+         <font>
+            <Font name="Calibri Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="39.0" layoutY="182.0" text="Nueva contraseña:">
+         <font>
+            <Font name="Calibri Bold" size="12.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="contraseñaAnttxt" layoutX="169.0" layoutY="133.0" style="-fx-background-color: #ed9252; -fx-border-color: #7a2100; -fx-border-radius: 3px;" />
+      <PasswordField fx:id="contraseñaActTxt" layoutX="169.0" layoutY="178.0" style="-fx-background-color: #ed9252; -fx-border-color: #7a2100; -fx-border-radius: 3px;" />
+      <ImageView fitHeight="17.0" fitWidth="28.0" layoutX="25.0" layoutY="20.0" onMouseClicked="#VolverBtn" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../img/izquierda.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

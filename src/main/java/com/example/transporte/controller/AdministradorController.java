@@ -7,6 +7,7 @@ package com.example.transporte.controller;
  * Aplicacion que emula una empresa de logistica a la cual le llegan unos pedidos a entregar y con conductores lo hacen llegar a los clientes.
  */
 
+import com.example.transporte.HelloApplication;
 import com.example.transporte.conexion.UsuarioCon;
 import com.example.transporte.model.Cliente;
 import com.example.transporte.model.Ruta;
@@ -14,19 +15,25 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import static com.example.transporte.controller.HelloController.identifier;
 
@@ -43,19 +50,24 @@ public class AdministradorController implements Initializable {
     public ListView listview2;
     @FXML
     public TextField textfield11;
+    @FXML
+    public ImageView ImagenBtn;
     private UsuarioCon usuarioCon;
+    private Stage adminStage;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         usuarioCon=new UsuarioCon();
+        adminStage=new Stage();
         labelNombre.setText(identifier);
         //llenarListViewPedidos(listview1);
         //llenarListViewRuta(listview2);
-        llenarListViewClientes(listview2);
+        List<Cliente> todosClientes = usuarioCon.obtenerClientes();
+        llenarListViewClientes(listview2,todosClientes);
         String imagen= "src/main/resources/img/3135768.png";
         Image image= new Image(new File(imagen).toURI().toString());
         circle.setFill(new ImagePattern(image));
     }
-
+    //Llena el listview con las rutas
     public void llenarListViewRuta(ListView<Ruta> listViewRuta) {
         List<Ruta> rutas = usuarioCon.obtenerRutasPorConductor(textfield1.getText());
         // Crear un ObservableList a partir de la lista de pedidos
@@ -75,22 +87,20 @@ public class AdministradorController implements Initializable {
             }
         });
     }
-
-    public void llenarListViewClientes(ListView<Cliente> listViewRuta) {
-        List<Cliente> clientes = usuarioCon.obtenerClientes();
-        // Crear un ObservableList a partir de la lista de clientes
+    //Llena el listview con los clientes
+    public void llenarListViewClientes(ListView<Cliente> listViewClientes, List<Cliente> clientes) {
         ObservableList<Cliente> items = FXCollections.observableArrayList(clientes);
-        // Establecer los pedidos en el ListView
-        listViewRuta.setItems(items);
+        // Establecer los clientes en el ListView
+        listViewClientes.setItems(items);
         // Configurar el CellFactory para mostrar solo el nombre del cliente
-        listViewRuta.setCellFactory(param -> new ListCell<Cliente>() {
+        listViewClientes.setCellFactory(param -> new ListCell<Cliente>() {
             @Override
             protected void updateItem(Cliente cliente, boolean empty) {
                 super.updateItem(cliente, empty);
                 if (empty || cliente == null || cliente.getId() == -1) {
                     setText(null);
                 } else {
-                    setText("Nombre: "+cliente.getNombre());
+                    setText("Nombre: " + cliente.getNombre());
                 }
             }
         });
@@ -99,25 +109,50 @@ public class AdministradorController implements Initializable {
     public void Buscar(ActionEvent actionEvent) {
         llenarListViewRuta(listview1);
     }
-
+    //Elimina la ruta seleccionada
     public void EliminarRuta(ActionEvent actionEvent) {
-        usuarioCon.eliminarRuta(textfield1.getText());
-        llenarListViewRuta(listview1);
+        Ruta rutaSeleccionado = (Ruta) listview1.getSelectionModel().getSelectedItem();
+        if (rutaSeleccionado != null) {
+            usuarioCon.eliminarRuta(textfield1.getText());
+            // Volver a llenar el ListView después de eliminar el cliente
+            llenarListViewRuta(listview1);
+        }
+    }
+
+    public void seleccionarRuta(Ruta ruta) {
+        listview1.getSelectionModel().select(ruta);
     }
 
     public void seleccionarCliente(Cliente cliente) {
         listview2.getSelectionModel().select(cliente);
     }
+
+    //Da de baja al cliente
     public void DarBaja(ActionEvent actionEvent) {
-     /*   Cliente clienteSeleccionado = (Cliente) listview2.getSelectionModel().getSelectedItem();
+        Cliente clienteSeleccionado = (Cliente) listview2.getSelectionModel().getSelectedItem();
         if (clienteSeleccionado != null) {
             usuarioCon.eliminarUsuario(clienteSeleccionado.getNombre());
             // Volver a llenar el ListView después de eliminar el cliente
-            llenarListViewClientes(listview2);
-        }*/
+            List<Cliente> todosClientes = usuarioCon.obtenerClientes();
+            llenarListViewClientes(listview2,todosClientes);
+        }
     }
 
+    //Busca el cliente por el id
     public void BuscarClientes(ActionEvent actionEvent) {
+        // Obtener el término de búsqueda ingresado por el usuario
+        String terminoBusqueda = textfield11.getText().trim().toLowerCase();
+
+        // Obtener todos los clientes
+        List<Cliente> todosClientes = usuarioCon.obtenerClientes();
+
+        // Filtrar los clientes que coincidan con el término de búsqueda
+        List<Cliente> clientesFiltrados = todosClientes.stream()
+                .filter(cliente -> cliente.getNombre().toLowerCase().contains(terminoBusqueda))
+                .collect(Collectors.toList());
+
+        // Actualizar el ListView con los resultados filtrados
+        llenarListViewClientes(listview2, clientesFiltrados);
     }
 
     public void Seleccionar(MouseEvent mouseEvent) {
@@ -126,5 +161,35 @@ public class AdministradorController implements Initializable {
             System.out.println("Cliente seleccionado");
             seleccionarCliente(clienteSeleccionado);
         }
+    }
+
+    public void Seleccionar2(MouseEvent mouseEvent) {
+        Ruta rutaSeleccionado = (Ruta) listview1.getSelectionModel().getSelectedItem();
+        if (rutaSeleccionado != null) {
+            System.out.println("Ruta seleccionado");
+            seleccionarRuta(rutaSeleccionado);
+        }
+    }
+
+    //Abrir la ventana para editar el conductor o añadirlo
+    public void EditarConduc(MouseEvent mouseEvent) {
+        adminStage = (Stage) ImagenBtn.getScene().getWindow();
+        adminStage.close();
+        Scene scene = null;
+        try {
+            scene = new Scene(FXMLLoader.load(HelloApplication.class.getResource("EditConductor.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        adminStage.setTitle("Logistic24");
+        adminStage.setScene(scene);
+        String imagen= "src/main/resources/img/logo.png";
+        Image image= new Image(new File(imagen).toURI().toString());
+        adminStage.getIcons().add(image);
+        adminStage.show();
+
+
+
     }
 }

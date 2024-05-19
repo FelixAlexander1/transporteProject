@@ -19,6 +19,7 @@ public class Conductor extends Usuario {
         this.disponible = disponible;
     }
 
+
     public int getId() {
         return id;
     }

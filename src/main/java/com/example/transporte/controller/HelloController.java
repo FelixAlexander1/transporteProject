@@ -50,6 +50,23 @@ public class HelloController implements Initializable {
 
     //Si el usuario es correcto logea al usuario
     public void Ingresar(ActionEvent actionEvent) {
+        ingresarLogin();
+    }
+
+    //Te lleva a la ventana para registrar
+    public void Registrar(ActionEvent actionEvent) {
+            registrarse();
+    }
+
+    // Método para mostrar una alerta con un mensaje
+    private void mostrarAlerta(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Ingreso de Usuario");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+    }
+    public void ingresarLogin(){
         // Obtener el email y la contraseña ingresados por el usuario
         String email = emailTxt.getText();
         String contraseña = passTxt.getText();
@@ -72,27 +89,21 @@ public class HelloController implements Initializable {
             sceneController.abrirEscena(tipoUsuario);
         } else {
             // El inicio de sesión falló
-            System.out.println("Inicio de sesión fallido. Credenciales incorrectas.");
+            mostrarAlerta("Inicio de sesión fallido. Credenciales incorrectas.");
             // Mostrar un mensaje de error al usuario o tomar otras acciones según sea necesario
         }
     }
-
-    //Te lleva a la ventana para registrar
-    public void Registrar(ActionEvent actionEvent) throws IOException {
+    public void registrarse(){
         System.out.println("Ir a registrarse");
         primaryStage = (Stage) registrarLink.getScene().getWindow();
         primaryStage.close();
-        Scene scene = new Scene(FXMLLoader.load(HelloApplication.class.getResource("registro.fxml")));
+        Scene scene = null;
+        try {
+            scene = new Scene(FXMLLoader.load(HelloApplication.class.getResource("registro.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    // Método para mostrar una alerta con un mensaje
-    private void mostrarAlerta(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Ingreso de Usuario");
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
     }
 }

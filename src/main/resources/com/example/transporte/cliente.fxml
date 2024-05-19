@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
@@ -29,11 +31,24 @@
       <Circle fx:id="circle" fill="DODGERBLUE" layoutX="50.0" layoutY="50.0" radius="36.0" stroke="BLACK" strokeType="INSIDE" />
       <Label layoutX="134.0" layoutY="50.0" text="Pedidos">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="Calibri Bold" size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="buscarTxt" layoutX="283.0" layoutY="306.0" prefHeight="25.0" prefWidth="52.0" />
-      <Label layoutX="243.0" layoutY="310.0" text="Pedido:" />
-      <Button layoutX="335.0" layoutY="306.0" mnemonicParsing="false" onAction="#Buscar" prefHeight="25.0" prefWidth="52.0" text="Buscar" />
+      <TextField fx:id="buscarTxt" layoutX="263.0" layoutY="306.0" prefHeight="25.0" prefWidth="52.0" style="-fx-background-color: #ed9252; -fx-border-color: #7a2100; -fx-border-radius: 3px;" />
+      <Label layoutX="204.0" layoutY="311.0" text="Pedido ID:">
+         <font>
+            <Font name="Calibri Bold" size="14.0" />
+         </font></Label>
+      <Button layoutX="333.0" layoutY="306.0" mnemonicParsing="false" onAction="#Buscar" prefHeight="27.0" prefWidth="59.0" style="-fx-background-color: #7a2100; -fx-text-fill: white; -fx-border-color: #7a2100; -fx-border-radius: 3px;" text="Buscar" />
+      <ImageView fx:id="EditBtn" fitHeight="36.0" fitWidth="40.0" layoutX="352.0" layoutY="23.0" onMouseClicked="#EditarPerfil" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../img/editarPerfil.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="empresaBtn" layoutX="26.0" layoutY="315.0" mnemonicParsing="false" onAction="#Empresa" prefHeight="27.0" prefWidth="72.0" text="EMPRESAS" underline="true">
+         <font>
+            <Font name="Calibri Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

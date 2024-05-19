@@ -100,10 +100,12 @@ public class ConductorController implements Initializable {
             }
         });
     }
+
     //Selecciona el pedido
     public void seleccionarPedido(Pedido pedido) {
         listview1.getSelectionModel().select(pedido);
     }
+
     public void Seleccionar(MouseEvent mouseEvent) {
         pedidoSeleccionado = (Pedido) listview1.getSelectionModel().getSelectedItem();
         if (pedidoSeleccionado != null) {
@@ -112,6 +114,7 @@ public class ConductorController implements Initializable {
 
         }
     }
+
     //Pone el pedido en pendiente
     public void Pendiente(ActionEvent actionEvent) {
         usuarioCon.actualizarEstadoPedido(pedidoSeleccionado.getId(),EstadoPedido.Pendiente);
@@ -119,28 +122,35 @@ public class ConductorController implements Initializable {
         llenarListViewPedidos(listview1);
 
     }
+
     //Pone si el pedido esta en curso
     public void Cursar(ActionEvent actionEvent) {
         usuarioCon.actualizarEstadoPedido(pedidoSeleccionado.getId(),EstadoPedido.EnCurso);
         listview1.getItems().clear();
         llenarListViewPedidos(listview1);
+        llenarListViewRuta(listview2);
+
     }
+
     //Se entrega el pedido
     public void Entregar(ActionEvent actionEvent) {
         usuarioCon.actualizarEstadoPedido(pedidoSeleccionado.getId(),EstadoPedido.Entregado);
         listview1.getItems().clear();
         llenarListViewPedidos(listview1);
     }
+
     //Se cancela el pedido
     public void Cancelar(ActionEvent actionEvent) {
         usuarioCon.actualizarEstadoPedido(pedidoSeleccionado.getId(),EstadoPedido.Cancelado);
         listview1.getItems().clear(); // Limpiar el ListView
         llenarListViewPedidos(listview1);
     }
+
     //Selecciona la ruta de la lista
     public void seleccionarRuta(Ruta ruta) {
         listview2.getSelectionModel().select(ruta);
     }
+
     public void Seleccionar2(MouseEvent mouseEvent) {
         rutaSeleccionada = (Ruta) listview2.getSelectionModel().getSelectedItem();
         if (rutaSeleccionada != null) {
@@ -148,6 +158,7 @@ public class ConductorController implements Initializable {
             seleccionarRuta(rutaSeleccionada);
         }
     }
+
     //Finaliza la ruta
     public void Finalizar(ActionEvent actionEvent) {
         usuarioCon.actualizarFechaFinRuta(rutaSeleccionada.getId(), LocalDateTime.now());

@@ -25,6 +25,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -49,19 +50,25 @@ public class ClienteController implements Initializable {
     public Circle circle;
     @FXML
     public TextField buscarTxt;
+    @FXML
+    public ImageView EditBtn;
     private UsuarioCon usuarioCon;
+    private Stage clienteStage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         holatt.setText(identifier);
+        clienteStage=new Stage();
         usuarioCon=new UsuarioCon();
-        llenarListViewClientes(listview);
+        llenarListViewPedidos(listview);
         String imagen= "src/main/resources/img/3135768.png";
         Image image= new Image(new File(imagen).toURI().toString());
         circle.setFill(new ImagePattern(image));
-    }
+        usuarioCon.comprobarDisponibilidadConductores();
 
-    public void llenarListViewClientes(ListView<Pedido> listViewClientes) {
+    }
+    //Llena la lista con los pedidos del cliente
+    public void llenarListViewPedidos(ListView<Pedido> listViewClientes) {
         List<Pedido> pedidos = usuarioCon.obtenerPedidosConCliente(identifier);
 
         // Crear un ObservableList a partir de la lista de pedidos
@@ -83,7 +90,7 @@ public class ClienteController implements Initializable {
             }
         });
     }
-
+    //Llena la lista con los pedidos por el id del pedido
     public void llenarListViewPedidoId(ListView<Pedido> listViewClientes) {
         List<Pedido> nombrePedido = usuarioCon.obtenerPedidosPorId(Integer.parseInt(buscarTxt.getText()));
 
@@ -113,13 +120,14 @@ public class ClienteController implements Initializable {
         if (pedidoSeleccionado != null) {
             System.out.println("Seleccionado");
             seleccionarPedido(pedidoSeleccionado);
-            mostrarVentanaEnviarMensaje(pedidoSeleccionado);
+            mostrarVentanaDatosPedido(pedidoSeleccionado);
             Stage stage = (Stage) listview.getScene().getWindow();
             stage.close();
         }
     }
 
-    public void mostrarVentanaEnviarMensaje(Pedido pedido) {
+    //Muestra los datos del producto
+    public void mostrarVentanaDatosPedido(Pedido pedido) {
         // Inicializar y mostrar la ventana de enviar mensaje
         try {
             Stage stage = new Stage();
@@ -139,7 +147,35 @@ public class ClienteController implements Initializable {
 
     public void Buscar(ActionEvent actionEvent) {
       llenarListViewPedidoId(listview);
+    }
 
+    //Abre el editar perfil del cliente
+    public void EditarPerfil(MouseEvent mouseEvent) {
+        clienteStage = (Stage) EditBtn.getScene().getWindow();
+        clienteStage.close();
+        Scene scene = null;
+        try {
+            scene = new Scene(FXMLLoader.load(HelloApplication.class.getResource("editarCliente.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        clienteStage.setTitle("Logistic24");
+        clienteStage.setScene(scene);
+        clienteStage.show();
+    }
 
+    //Abre la ventana de empresa/particular para enviar pedidos
+    public void Empresa(ActionEvent actionEvent) {
+        clienteStage = (Stage) EditBtn.getScene().getWindow();
+        clienteStage.close();
+        Scene scene = null;
+        try {
+            scene = new Scene(FXMLLoader.load(HelloApplication.class.getResource("MandarPedido.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        clienteStage.setTitle("Logistic24");
+        clienteStage.setScene(scene);
+        clienteStage.show();
     }
 }

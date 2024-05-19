@@ -5,33 +5,43 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="281.0" prefWidth="344.0" style="-fx-background-color: #b75413;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.transporte.controller.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="298.0" prefWidth="261.0" style="-fx-background-color: #b75413;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.transporte.controller.HelloController">
    <children>
-      <TextField fx:id="emailTxt" layoutX="88.0" layoutY="106.0" style="-fx-background-color: #ed9252; -fx-border-color: #7a2100; -fx-border-radius: 5px; -fx-padding: 5px; -fx-font-size: 14px; -fx-background-radius: 5px;" />
-      <PasswordField fx:id="passTxt" layoutX="88.0" layoutY="176.0" style="-fx-background-color: #ed9252; -fx-border-color: #7a2100; -fx-border-radius: 5px; -fx-padding: 5px; -fx-font-size: 14px; -fx-background-radius: 5px;" />
-      <Label layoutX="149.0" layoutY="79.0" text="Email">
+      <TextField fx:id="emailTxt" layoutX="46.0" layoutY="132.0" style="-fx-background-color: #ed9252; -fx-border-color: #7a2100; -fx-border-radius: 5px; -fx-padding: 5px; -fx-font-size: 14px; -fx-background-radius: 5px;" />
+      <PasswordField fx:id="passTxt" layoutX="46.0" layoutY="202.0" style="-fx-background-color: #ed9252; -fx-border-color: #7a2100; -fx-border-radius: 5px; -fx-padding: 5px; -fx-font-size: 14px; -fx-background-radius: 5px;" />
+      <Label layoutX="113.0" layoutY="104.0" text="Email">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="Calibri Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="132.0" layoutY="149.0" text="Password">
+      <Label layoutX="98.0" layoutY="174.0" text="Password">
          <font>
-            <Font name="System Bold" size="18.0" />
+            <Font name="Calibri Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="84.0" layoutY="26.0" text="Inicio de Sesión">
+      <Label layoutX="57.0" layoutY="73.0" text="Inicio de Sesión">
          <font>
-            <Font name="System Bold" size="24.0" />
+            <Font name="Calibri Bold" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="IngrsarBtn" layoutX="136.0" layoutY="226.0" mnemonicParsing="false" onAction="#Ingresar" style="-fx-background-color: #7a2100; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px; -fx-padding: 5px 10px; -fx-border-color: #7a2100; -fx-border-radius: 5px;" text="Ingresar" />
-      <Hyperlink fx:id="registrarLink" layoutX="244.0" layoutY="231.0" onAction="#Registrar" text="Registrarse" underline="true">
+      <Button fx:id="IngrsarBtn" layoutX="57.0" layoutY="251.0" mnemonicParsing="false" onAction="#Ingresar" style="-fx-background-color: #7a2100; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5px; -fx-padding: 5px 10px; -fx-border-color: #7a2100; -fx-border-radius: 5px;" text="Ingresar">
+         <font>
+            <Font name="Calibri Bold" size="24.0" />
+         </font></Button>
+      <Hyperlink fx:id="registrarLink" layoutX="135.0" layoutY="256.0" onAction="#Registrar" text="Registrarse" underline="true">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Hyperlink>
+      <ImageView fitHeight="71.0" fitWidth="89.0" layoutX="95.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../img/logo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

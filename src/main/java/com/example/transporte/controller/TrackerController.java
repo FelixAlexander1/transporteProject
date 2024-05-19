@@ -44,7 +44,7 @@ public class TrackerController implements Initializable {
         pedido=new Pedido();
 
     }
-
+    //Datos de los pedidos
     public void initData(Pedido pedido) {
         this.pedido = pedido;
         pedidoidLbl.setText(String.valueOf(pedido.getId()));
