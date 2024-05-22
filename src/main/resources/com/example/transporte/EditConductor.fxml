@@ -46,7 +46,7 @@
                         <Button fx:id="AcptarBtn" layoutX="100.0" layoutY="232.0" mnemonicParsing="false" onAction="#Aceptar" style="-fx-background-color: #7a2100; -fx-text-fill: white; -fx-border-radius: 3px; -fx-border-color: #7a2100;" text="Aceptar" />
                         <ChoiceBox fx:id="disponibilidadCB" layoutX="89.0" layoutY="192.0" prefWidth="150.0" style="-fx-background-color: #7a2100;" />
                         <ListView fx:id="listview" layoutX="13.0" layoutY="36.0" onMouseClicked="#Seleccionar1" prefHeight="78.0" prefWidth="226.0" />
-                        <ImageView fx:id="backBtn1" fitHeight="15.0" fitWidth="23.0" layoutX="8.0" layoutY="9.0" onMouseClicked="#back1" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="backBtn1" fitHeight="15.0" fitWidth="23.0" layoutX="9.0" layoutY="12.0" onMouseClicked="#back1" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../img/izquierda.png" />
                            </image>
@@ -57,49 +57,49 @@
           </Tab>
           <Tab text="Añadir conductor">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="255.0" prefWidth="252.0">
                      <children>
-                        <Label layoutX="15.0" layoutY="56.0" text="Nombre:">
+                        <Label layoutX="15.0" layoutY="61.0" text="Nombre:">
                            <font>
                               <Font name="Calibri Bold" size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="84.0" text="Email:">
+                        <Label layoutX="14.0" layoutY="89.0" text="Email:">
                            <font>
                               <Font name="Calibri Bold" size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="15.0" layoutY="112.0" text="Contraseña:">
+                        <Label layoutX="15.0" layoutY="117.0" text="Contraseña:">
                            <font>
                               <Font name="Calibri Bold" size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="16.0" layoutY="140.0" text="Licencia:">
+                        <Label layoutX="16.0" layoutY="145.0" text="Licencia:">
                            <font>
                               <Font name="Calibri Bold" size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="169.0" text="Vehiculo:">
+                        <Label layoutX="14.0" layoutY="174.0" text="Vehiculo:">
                            <font>
                               <Font name="Calibri Bold" size="14.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="nombreTxt" layoutX="89.0" layoutY="52.0" style="-fx-background-color: #ed9252;" />
-                        <TextField fx:id="emailTxt" layoutX="89.0" layoutY="80.0" style="-fx-background-color: #ed9252;" />
-                        <TextField fx:id="contraseñaTxt" layoutX="89.0" layoutY="108.0" style="-fx-background-color: #ed9252;" />
-                        <TextField fx:id="licenciaTxt2" layoutX="89.0" layoutY="136.0" style="-fx-background-color: #ed9252;" />
-                        <TextField fx:id="vehiculoTxt2" layoutX="89.0" layoutY="165.0" style="-fx-background-color: #ed9252;" />
-                        <Button fx:id="AñadirBtn" layoutX="100.0" layoutY="208.0" mnemonicParsing="false" onAction="#añadir" style="-fx-background-color: #7a2100; -fx-border-color: #7a2100; -fx-text-fill: white; -fx-border-radius: 3px;" text="Añadir" />
-                        <Text layoutX="52.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrar conductor">
+                        <TextField fx:id="nombreTxt" layoutX="89.0" layoutY="57.0" style="-fx-background-color: #ed9252;" />
+                        <TextField fx:id="emailTxt" layoutX="89.0" layoutY="85.0" style="-fx-background-color: #ed9252;" />
+                        <TextField fx:id="contraseñaTxt" layoutX="89.0" layoutY="113.0" style="-fx-background-color: #ed9252;" />
+                        <TextField fx:id="licenciaTxt2" layoutX="89.0" layoutY="141.0" style="-fx-background-color: #ed9252;" />
+                        <Button fx:id="AñadirBtn" layoutX="99.0" layoutY="221.0" mnemonicParsing="false" onAction="#añadir" style="-fx-background-color: #7a2100; -fx-border-color: #7a2100; -fx-text-fill: white; -fx-border-radius: 3px;" text="Añadir" />
+                        <Text layoutX="52.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrar conductor">
                            <font>
                               <Font name="Calibri Bold" size="18.0" />
                            </font>
                         </Text>
-                        <ImageView fx:id="backBtn2" fitHeight="15.0" fitWidth="23.0" layoutX="8.0" layoutY="9.0" onMouseClicked="#back2" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="backBtn2" fitHeight="15.0" fitWidth="23.0" layoutX="10.0" layoutY="12.0" onMouseClicked="#back2" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../img/izquierda.png" />
                            </image>
                         </ImageView>
+                        <ChoiceBox fx:id="VehiculoCB" layoutX="89.0" layoutY="170.0" prefWidth="150.0" style="-fx-background-color: #7a2100;" />
                      </children>
                   </AnchorPane>
             </content>

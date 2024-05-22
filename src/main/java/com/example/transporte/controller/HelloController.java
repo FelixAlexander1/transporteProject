@@ -46,6 +46,7 @@ public class HelloController implements Initializable {
     private Stage primaryStage;
     private SceneController sceneController;
     public static String identifier;
+    public static int idCliente;
     private Stage ayudaStage;
 
     @Override
@@ -64,7 +65,7 @@ public class HelloController implements Initializable {
 
     //Te lleva a la ventana para registrar
     public void Registrar(ActionEvent actionEvent) {
-            registrarse();
+        registrarse();
     }
 
     // Método para mostrar una alerta con un mensaje
@@ -88,6 +89,7 @@ public class HelloController implements Initializable {
         // Realizar el inicio de sesión
         TipoUsuario tipoUsuario = user.obtenerTipoUsuario(email, contraseña);
         identifier= user.recibirNombre(email,contraseña);
+        idCliente=user.recibirId(email,contraseña);
 
         // Verificar el tipo de usuario obtenido
         if (tipoUsuario != null) {

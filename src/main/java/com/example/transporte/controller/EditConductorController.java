@@ -5,6 +5,7 @@ import com.example.transporte.HelloApplication;
 import com.example.transporte.conexion.UsuarioCon;
 import com.example.transporte.model.Cliente;
 import com.example.transporte.model.Conductor;
+import com.example.transporte.model.Vehiculo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,8 +45,6 @@ public class EditConductorController implements Initializable {
     @FXML
     public TextField licenciaTxt2;
     @FXML
-    public TextField vehiculoTxt2;
-    @FXML
     public Button AñadirBtn;
     @FXML
     public ListView listview;
@@ -54,15 +53,18 @@ public class EditConductorController implements Initializable {
     @FXML
     public ImageView backBtn1;
     @FXML
+    public ChoiceBox VehiculoCB;
+    @FXML
     private UsuarioCon usuarioCon;
     private Stage adminStage;
     private String nombre;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        usuarioCon=new UsuarioCon();
-        adminStage=new Stage();
+        usuarioCon = new UsuarioCon();
+        adminStage = new Stage();
         llenarListViewConductores(listview);
+        llenarChoiceBoxVehiculos(VehiculoCB); // Llenar el ChoiceBox de vehículos
         // Crear una lista de opciones para el ChoiceBox
         ObservableList<String> opciones = FXCollections.observableArrayList("Disponible", "No Disponible");
 
@@ -71,6 +73,9 @@ public class EditConductorController implements Initializable {
 
         // Establecer un valor predeterminado (opcional)
         disponibilidadCB.setValue("Disponible");
+
+        System.out.println(usuarioCon.obtenerVehiculosDisponibles());
+
     }
 
     public void llenarListViewConductores(ListView<Conductor> listViewConductor) {
@@ -130,9 +135,50 @@ public class EditConductorController implements Initializable {
 
     //Añade el conductor
     public void añadir(ActionEvent actionEvent) {
-        if(usuarioCon.registrarUsuarioConductor(nombreTxt.getText(),contraseñaTxt.getText(),emailTxt.getText(),licenciaTxt2.getText(), Integer.parseInt(vehiculoTxt2.getText()))){
-            volverAAdmin(AñadirBtn);
+        // Obtener la opción seleccionada del ChoiceBox de vehículos
+        String vehiculoSeleccionado = VehiculoCB.getValue().toString();
+
+        // Verificar que se haya seleccionado un vehículo
+        if (vehiculoSeleccionado == null) {
+            mostrarAlerta("Debe seleccionar un vehículo.");
+            return;
         }
+
+        // Obtener solo la ID del vehículo seleccionado
+        int idVehiculoSeleccionado = obtenerIdVehiculo(vehiculoSeleccionado);
+
+        // Intentar registrar el nuevo conductor con la ID del vehículo seleccionado
+        if (idVehiculoSeleccionado != -1 &&
+                usuarioCon.registrarUsuarioConductor(nombreTxt.getText(), contraseñaTxt.getText(), emailTxt.getText(), licenciaTxt2.getText(), idVehiculoSeleccionado)) {
+            volverAAdmin(AñadirBtn);
+        } else {
+            mostrarAlerta("Error al registrar el conductor.");
+        }
+    }
+
+    // Método para obtener la ID del vehículo a partir de la cadena de texto seleccionada
+    private int obtenerIdVehiculo(String vehiculoSeleccionado) {
+        // Dividir la cadena en partes usando ',' como delimitador
+        String[] partes = vehiculoSeleccionado.split(",");
+
+        // Iterar sobre las partes y buscar la que contiene la subcadena "id="
+        for (String parte : partes) {
+            if (parte.contains("id=")) {
+                // Dividir la parte usando '=' como delimitador
+                String[] subPartes = parte.split("=");
+
+                // La segunda subparte debería contener la ID del vehículo
+                if (subPartes.length == 2) {
+                    try {
+                        return Integer.parseInt(subPartes[1].trim());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        return -1; // Retornar -1 si no se pudo obtener la ID del vehículo
     }
 
     public void volverAAdmin(Button buton){
@@ -182,9 +228,6 @@ public class EditConductorController implements Initializable {
         listview.getSelectionModel().select(conductor);
     }
 
-    public void Seleccionar(MouseEvent mouseEvent) {
-
-    }
 
     public void Seleccionar1(MouseEvent mouseEvent) {
         Conductor conductorSeleccionado = (Conductor) listview.getSelectionModel().getSelectedItem();
@@ -200,6 +243,17 @@ public class EditConductorController implements Initializable {
     }
     public void back2(MouseEvent mouseEvent) {
         volverAAdmin2(backBtn2);
+    }
+
+    public void llenarChoiceBoxVehiculos(ChoiceBox<Vehiculo> choiceBox) {
+        // Obtener la lista de vehículos disponibles
+        List<Vehiculo> vehiculosDisponibles = usuarioCon.obtenerVehiculosDisponibles();
+
+        // Crear un ObservableList a partir de la lista de vehículos disponibles
+        ObservableList<Vehiculo> opciones = FXCollections.observableArrayList(vehiculosDisponibles);
+
+        // Establecer las opciones en el ChoiceBox
+        choiceBox.setItems(opciones);
     }
 
 

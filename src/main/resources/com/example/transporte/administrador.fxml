@@ -13,7 +13,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="488.0" style="-fx-background-color: #b75413;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.transporte.controller.AdministradorController">
    <children>
       <Circle fx:id="circle" fill="DODGERBLUE" layoutX="63.0" layoutY="57.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label fx:id="labelNombre" layoutX="19.0" layoutY="109.0" text="Administrador">
+      <Label fx:id="labelNombre" layoutX="32.0" layoutY="109.0" text="Administrador">
          <font>
             <Font name="Calibri Bold" size="14.0" />
          </font>
@@ -21,7 +21,7 @@
       <ListView fx:id="listview1" layoutX="133.0" layoutY="46.0" onMouseClicked="#Seleccionar2" prefHeight="113.0" prefWidth="336.0" style="-fx-background-color: #7a2100; -fx-text-fill: #333; -fx-font-size: 14px;" />
       <TextField fx:id="textfield1" layoutX="319.0" layoutY="18.0" prefHeight="25.0" prefWidth="92.0" style="-fx-background-color: #ed9252;" />
       <Button fx:id="BuscarBtn" layoutX="416.0" layoutY="17.0" mnemonicParsing="false" onAction="#Buscar" style="-fx-background-color: #7a2100; -fx-text-fill: white; -fx-border-radius: 3px; -fx-border-color: #7a2100;" text="Buscar" />
-      <Label layoutX="133.0" layoutY="31.0" text="Introduce conductor.">
+      <Label layoutX="133.0" layoutY="31.0" text="Introduce conductor para ruta.">
          <font>
             <Font name="Calibri Bold" size="14.0" />
          </font></Label>

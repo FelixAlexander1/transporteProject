@@ -21,15 +21,13 @@
             -fx-font-size: 12px;
          </style>
       </Label>
-      <ListView fx:id="listview" layoutX="134.0" layoutY="77.0" onMouseClicked="#Seleccionar" prefHeight="223.0" prefWidth="258.0" style="-fx-background-color: #7a2100; -fx-text-fill: #333; -fx-font-size: 14px;">
+      <ListView fx:id="listview" layoutX="134.0" layoutY="198.0" onMouseClicked="#Seleccionar" prefHeight="102.0" prefWidth="258.0" style="-fx-background-color: #7a2100; -fx-text-fill: #333; -fx-font-size: 14px;">
          <style>
             /* Estilos adicionales del ListView */
-            -fx-selection-bar: #007bff;
-            -fx-selection-bar-text: white;
-         </style>
+            -fx-selection-bar: #007bff;-fx-selection-bar-text: white; -fx-background-color: #7a2100;</style>
       </ListView>
       <Circle fx:id="circle" fill="DODGERBLUE" layoutX="50.0" layoutY="50.0" radius="36.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label layoutX="134.0" layoutY="50.0" text="Pedidos">
+      <Label layoutX="134.0" layoutY="170.0" text="Pedidos">
          <font>
             <Font name="Calibri Bold" size="24.0" />
          </font>
@@ -50,5 +48,11 @@
             <Font name="Calibri Bold" size="12.0" />
          </font>
       </Button>
+      <Label layoutX="134.0" layoutY="27.0" text="Mis envios">
+         <font>
+            <Font name="Calibri Bold" size="24.0" />
+         </font>
+      </Label>
+      <ListView fx:id="listview2" layoutX="134.0" layoutY="58.0" onMouseClicked="#Seleccionar2" prefHeight="102.0" prefWidth="258.0" style="-fx-selection-bar-text: white; -fx-background-color: #7a2100;" />
    </children>
 </AnchorPane>

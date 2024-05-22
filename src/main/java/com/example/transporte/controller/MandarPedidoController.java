@@ -2,6 +2,7 @@ package com.example.transporte.controller;
 
 import com.example.transporte.HelloApplication;
 import com.example.transporte.conexion.UsuarioCon;
+import com.example.transporte.model.Cliente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.example.transporte.controller.HelloController.idCliente;
+import static com.example.transporte.controller.HelloController.identifier;
+import static com.example.transporte.model.TipoUsuario.Cliente;
+
 public class MandarPedidoController implements Initializable {
     @FXML
     public TextField idTxt;
@@ -31,18 +36,24 @@ public class MandarPedidoController implements Initializable {
     public Button registrarBtn;
     private UsuarioCon usuarioCon;
     private Stage clienteStage;
+    private Cliente cliente;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         usuarioCon=new UsuarioCon();
         clienteStage=new Stage();
+
+
     }
     //Registra el pedido
     public void Registrar(ActionEvent actionEvent) {
-        if(usuarioCon.ingresarPedidoConRuta(Integer.parseInt(idTxt.getText()),origenTxt.getText(),destinoTxt.getText(),nombreTxt.getText())){
-            usuarioCon.asignarPedidoAConductorDisponible(Integer.parseInt(idTxt.getText()));
-            volverACliente();
-        }
+
+            if (usuarioCon.ingresarPedidoConRuta(Integer.parseInt(idTxt.getText()), idCliente, origenTxt.getText(), destinoTxt.getText(), nombreTxt.getText()
+            )) {
+                usuarioCon.asignarPedidoAConductorDisponible(Integer.parseInt(idTxt.getText()));
+                volverACliente();
+            }
+
 
     }
 

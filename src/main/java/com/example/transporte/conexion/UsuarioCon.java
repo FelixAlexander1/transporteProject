@@ -88,7 +88,7 @@ public class UsuarioCon {
     // Método para obtener las rutas asignadas a un conductor específico
     // Ejecuta una consulta para buscar rutas basadas en el nombre del conductor
     public List<Ruta> obtenerRutasPorConductor(String nombreConductor) {
-        String sql = "SELECT r.RutaID, r.FechaInicio, r.FechaFin, p.ID AS PedidoID, p.Nombre, p.Origen, p.Destino, p.FechaPedido, p.Estado, c.ID AS ConductorID, c.LicenciaConducir, c.VehiculoID, c.Disponible " +
+        String sql = "SELECT r.ID AS RutaID, r.FechaInicio, r.FechaFin, p.ID AS PedidoID, p.Nombre, p.Origen, p.Destino, p.FechaPedido, p.Estado, c.ID AS ConductorID, c.LicenciaConducir, c.VehiculoID, c.Disponible " +
                 "FROM Rutas r " +
                 "INNER JOIN Conductores c ON r.ConductorID = c.ID " +
                 "INNER JOIN Usuarios u ON c.UsuarioID = u.ID " +
@@ -199,6 +199,53 @@ public class UsuarioCon {
             e.printStackTrace();
         }
         return name;
+    }
+    // Método para obtener el id de un usuario basado en su email y contraseña
+    // Ejecuta una consulta para buscar el usuario con las credenciales dadas
+    public int recibirId(String email, String passw) {
+        String sqlUsuario = "SELECT ID FROM Usuarios WHERE Email = ? AND Contraseña = ?";
+        int usuarioId = -1; // Valor por defecto en caso de error
+
+        try (PreparedStatement statementUsuario = conexion.prepareStatement(sqlUsuario)) {
+            statementUsuario.setString(1, email);
+            statementUsuario.setString(2, passw);
+
+            try (ResultSet resultSetUsuario = statementUsuario.executeQuery()) {
+                // Verificar si se encontraron resultados
+                if (resultSetUsuario.next()) {
+                    usuarioId = resultSetUsuario.getInt("ID");
+                    System.out.println("ID del usuario: " + usuarioId);
+                } else {
+                    System.out.println("Usuario no encontrado");
+                    return -1; // Retorna -1 si el usuario no fue encontrado
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1; // Retorna -1 en caso de excepción
+        }
+
+        // Ahora obtener el ID del cliente utilizando el ID del usuario
+        String sqlCliente = "SELECT ID FROM Clientes WHERE UsuarioID = ?";
+        int clienteId = -1; // Valor por defecto en caso de error
+
+        try (PreparedStatement statementCliente = conexion.prepareStatement(sqlCliente)) {
+            statementCliente.setInt(1, usuarioId);
+
+            try (ResultSet resultSetCliente = statementCliente.executeQuery()) {
+                // Verificar si se encontraron resultados
+                if (resultSetCliente.next()) {
+                    clienteId = resultSetCliente.getInt("ID");
+                    System.out.println("ID del cliente: " + clienteId);
+                } else {
+                    System.out.println("Cliente no encontrado para el usuario ID: " + usuarioId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return clienteId; // Retorna el ID del cliente o -1 si no se encontró
     }
 
     // Método para obtener los pedidos asociados a un cliente específico
@@ -318,7 +365,7 @@ public class UsuarioCon {
     // Método para actualizar la fecha de fin de una ruta específica
     // Actualiza el campo FechaFin en la tabla Rutas con la nuevaFechaFin proporcionada
     public void actualizarFechaFinRuta(int rutaID, LocalDateTime nuevaFechaFin) {
-        String sql = "UPDATE Rutas SET FechaFin = ? WHERE RutaID = ?";
+        String sql = "UPDATE Rutas SET FechaFin = ? WHERE ID = ?";
 
         try (PreparedStatement statement = conexion.prepareStatement(sql)) {
             statement.setTimestamp(1, Timestamp.valueOf(nuevaFechaFin));
@@ -594,6 +641,28 @@ public class UsuarioCon {
         }
         return false;
     }
+    public List<Vehiculo> obtenerVehiculosDisponibles() {
+        List<Vehiculo> vehiculosDisponibles = new ArrayList<>();
+        String sql = "SELECT v.ID, v.Marca, v.Modelo, v.Año, v.Capacidad, v.Matricula " +
+                "FROM Vehiculos v " +
+                "LEFT JOIN Conductores c ON v.ID = c.VehiculoID " +
+                "WHERE c.ID IS NULL";
+        try (PreparedStatement pstmt = conexion.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String marca = rs.getString("Marca");
+                String modelo = rs.getString("Modelo");
+                int año = rs.getInt("Año");
+                int capacidad = rs.getInt("Capacidad");
+                String matricula = rs.getString("Matricula");
+                vehiculosDisponibles.add(new Vehiculo(id, marca, modelo, año, capacidad, matricula));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vehiculosDisponibles;
+    }
 
     // Método para obtener el ID de un conductor por su nombre
     // Realiza una consulta para obtener el ID del conductor basado en su nombre
@@ -748,15 +817,30 @@ public class UsuarioCon {
 
     // Método para ingresar un nuevo pedido con ruta
     // Inserta un nuevo pedido en la tabla Pedidos con los datos proporcionados
-    public boolean ingresarPedidoConRuta(int pedidoID, String origen, String destino, String nombre) {
+    public boolean ingresarPedidoConRuta(int pedidoID, int clienteID, String origen, String destino, String nombre) {
         try {
+            // Verificar que el clienteID existe
+            String verificarCliente = "SELECT ID FROM Clientes WHERE ID = ?";
+            try (PreparedStatement stmtVerificarCliente = conexion.prepareStatement(verificarCliente)) {
+                stmtVerificarCliente.setInt(1, clienteID);
+                try (ResultSet rs = stmtVerificarCliente.executeQuery()) {
+                    if (!rs.next()) {
+                        System.out.println("Cliente no encontrado");
+                        return false;
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
             // Insertar el pedido
-            String insertarPedido = "INSERT INTO Pedidos (ID, Origen, Destino, Nombre) VALUES (?, ?, ?, ?)";
+            String insertarPedido = "INSERT INTO Pedidos (ID, ClienteID, Origen, Destino, Nombre) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement stmtPedido = conexion.prepareStatement(insertarPedido)) {
                 stmtPedido.setInt(1, pedidoID);
-                stmtPedido.setString(2, origen);
-                stmtPedido.setString(3, destino);
-                stmtPedido.setString(4, nombre);
+                stmtPedido.setInt(2, clienteID);
+                stmtPedido.setString(3, origen);
+                stmtPedido.setString(4, destino);
+                stmtPedido.setString(5, nombre);
                 int filasPedido = stmtPedido.executeUpdate();
 
                 // Verificar si el pedido se insertó correctamente

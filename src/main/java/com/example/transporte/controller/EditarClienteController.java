@@ -40,11 +40,17 @@ public class EditarClienteController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         usuarioCon=new UsuarioCon();
         clienteStage=new Stage();
-
     }
 
     public void Aceptar(ActionEvent actionEvent) {
-        ActualizarDatosCliente();
+        if (validarDatos()) {
+            if (ActualizarDatosCliente()) {
+                mostrarAlerta("Datos actualizados correctamente.");
+                volverACliente();
+            } else {
+                mostrarAlerta("Error al actualizar los datos del usuario.");
+            }
+        }
     }
 
     private void mostrarAlerta(String mensaje) {
@@ -73,37 +79,63 @@ public class EditarClienteController implements Initializable {
         Image image= new Image(new File(imagen).toURI().toString());
         clienteStage.getIcons().add(image);
         clienteStage.setResizable(false);
+        clienteStage.show();
         clienteStage = (Stage) AceptarBtn.getScene().getWindow();
         clienteStage.close();
     }
 
-    //Actualiza los datos del cliente
-    public void ActualizarDatosCliente(){
+    // Validar los datos antes de actualizar
+    private boolean validarDatos() {
+
+        if (direccionTxt.getText().isEmpty() || TelefonoTxt.getText().isEmpty()) {
+            mostrarAlerta("Los campos de dirección y teléfono no pueden estar vacíos.");
+            return false;
+        }
+
+        // Validar el número de teléfono
+        if (!esNumeroTelefonoValido(TelefonoTxt.getText())) {
+            mostrarAlerta("Número de teléfono no válido. Por favor, ingrese un número de teléfono correcto.");
+            return false;
+        }
+
+        return true;
+    }
+
+    // Actualiza los datos del cliente y retorna true si se actualizó correctamente
+    public boolean ActualizarDatosCliente() {
         try {
-            // Verificar si los campos de contraseña no están vacíos
+            boolean contrasenaActualizada = true;
+            boolean datosActualizados = true;
+
+            // Actualizar la contraseña si ambos campos están llenos
             if (!contraseñaAnttxt.getText().isEmpty() && !contraseñaActTxt.getText().isEmpty()) {
-                // Actualizar la contraseña solo si los campos no están vacíos
-                if (usuarioCon.actualizarContrasena(identifier, contraseñaAnttxt.getText(), contraseñaActTxt.getText())) {
-                    mostrarAlerta("Contraseña actualizada correctamente.");
-                    volverACliente();
-                } else {
-                    mostrarAlerta("Error al actualizar la contraseña.");
+                contrasenaActualizada = usuarioCon.actualizarContrasena(identifier, contraseñaAnttxt.getText(), contraseñaActTxt.getText());
+                if (!contrasenaActualizada) {
+                    return false;
                 }
             }
 
-            // Verificar si los campos de dirección y teléfono no están vacíos
-            if (!direccionTxt.getText().isEmpty() && !TelefonoTxt.getText().isEmpty()) {
-                // Actualizar la dirección y el teléfono solo si los campos no están vacíos
-                if (usuarioCon.actualizarDireccionYTelefono(identifier, direccionTxt.getText(), TelefonoTxt.getText())) {
-                    mostrarAlerta("Dirección y teléfono actualizados correctamente.");
-                    volverACliente();
-                } else {
-                    mostrarAlerta("Error al actualizar la dirección y el teléfono.");
-                }
+            // Actualizar la dirección y el teléfono
+            datosActualizados = usuarioCon.actualizarDireccionYTelefono(identifier, direccionTxt.getText(), TelefonoTxt.getText());
+            if (!datosActualizados) {
+                return false;
             }
+
+            return contrasenaActualizada && datosActualizados;
+
         } catch (Exception e) {
             // Manejar otras excepciones
             mostrarAlerta("Error al actualizar la información del usuario: " + e.getMessage());
+            return false;
         }
     }
+
+    // Método para validar el número de teléfono
+    private boolean esNumeroTelefonoValido(String telefono) {
+        // Puedes ajustar la expresión regular según el formato esperado de los números de teléfono
+        String regex = "^[0-9]{9}$"; // Ejemplo: números de teléfono de 10 dígitos
+        return telefono.matches(regex);
+    }
+
+
 }

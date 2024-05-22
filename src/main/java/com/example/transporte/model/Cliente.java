@@ -8,6 +8,7 @@ public class Cliente extends Usuario {
     private String direccion;
     private String telefono;
 
+
     // Constructor
 
 
@@ -17,7 +18,9 @@ public class Cliente extends Usuario {
         this.usuario = usuario;
         this.direccion = direccion;
         this.telefono = telefono;
+
     }
+
 
     public int getId() {
         return id;

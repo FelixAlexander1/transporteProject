@@ -52,6 +52,7 @@ public class ClienteController implements Initializable {
     public TextField buscarTxt;
     @FXML
     public ImageView EditBtn;
+    public ListView listview2;
     private UsuarioCon usuarioCon;
     private Stage clienteStage;
 
@@ -60,7 +61,7 @@ public class ClienteController implements Initializable {
         holatt.setText(identifier);
         clienteStage=new Stage();
         usuarioCon=new UsuarioCon();
-        llenarListViewPedidos(listview);
+        llenarListViewPedidos(listview2);
         String imagen= "src/main/resources/img/3135768.png";
         Image image= new Image(new File(imagen).toURI().toString());
         circle.setFill(new ImagePattern(image));
@@ -114,6 +115,9 @@ public class ClienteController implements Initializable {
 
     public void seleccionarPedido(Pedido pedido) {
         listview.getSelectionModel().select(pedido);
+    }
+    public void seleccionarPedidoCadaCliente(Pedido pedido) {
+        listview2.getSelectionModel().select(pedido);
     }
     public void Seleccionar(MouseEvent mouseEvent) {
         Pedido pedidoSeleccionado = (Pedido) listview.getSelectionModel().getSelectedItem();
@@ -180,5 +184,16 @@ public class ClienteController implements Initializable {
         clienteStage.setTitle("Logistic24");
         clienteStage.setScene(scene);
         clienteStage.show();
+    }
+
+    public void Seleccionar2(MouseEvent mouseEvent) {
+        Pedido pedidoSeleccionado = (Pedido) listview2.getSelectionModel().getSelectedItem();
+        if (pedidoSeleccionado != null) {
+            System.out.println("Seleccionado");
+            seleccionarPedidoCadaCliente(pedidoSeleccionado);
+            mostrarVentanaDatosPedido(pedidoSeleccionado);
+            Stage stage = (Stage) listview2.getScene().getWindow();
+            stage.close();
+        }
     }
 }

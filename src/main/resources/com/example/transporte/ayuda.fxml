@@ -4,11 +4,13 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
 <AnchorPane prefHeight="266.0" prefWidth="284.0" style="-fx-background-color: #b75413;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.transporte.Ayuda">
    <children>
-      <TabPane layoutY="6.0" prefHeight="200.0" prefWidth="284.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutY="27.0" prefHeight="200.0" prefWidth="284.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Cliente">
                <content>
@@ -27,6 +29,11 @@
             </Tab>
         </tabs>
       </TabPane>
-      <Button fx:id="volverBtl" layoutX="208.0" layoutY="220.0" mnemonicParsing="false" onAction="#Volver" style="-fx-background-color: #7a2100; -fx-background-radius: 5px; -fx-border-radius: 5px; -fx-text-fill: white;" text="Volver" />
+      <Button fx:id="volverBtl" layoutX="214.0" layoutY="233.0" mnemonicParsing="false" onAction="#Volver" style="-fx-background-color: #7a2100; -fx-background-radius: 5px; -fx-border-radius: 5px; -fx-text-fill: white;" text="Volver" />
+      <Text layoutX="71.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Guía de ayuda">
+         <font>
+            <Font name="Calibri Bold" size="24.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
